@@ -53,6 +53,13 @@ tr:last-child td{border-bottom:0}
 .shot img{display:block;width:100%;height:auto}
 .shot .cap{padding:10px 14px;font-size:14px;color:var(--sub)}
 .shot .cap b{color:var(--ink)}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media (max-width:620px){.gal{grid-template-columns:1fr}}
+.it{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.it img,.it video{display:block;width:100%;height:auto;background:#000}
+.it .cap{padding:8px 12px;font-size:14px}
+.it.full{grid-column:1/-1}
+h4{font-size:15px;color:var(--sub);margin:18px 0 8px;font-weight:600}
 </style>
 </head>
 <body>
@@ -106,6 +113,30 @@ tr:last-child td{border-bottom:0}
     <div class="cap"><b>LibTV 画布 · Seedance 2.5 首尾帧生视频</b>　左列是首帧、尾帧图片节点，连线到右列的视频节点；下方面板放首帧和尾帧、写提示词，选模型 2.5、首尾帧模式、720P、10 秒后生成。每个版本都留在画布上，方便对比。</div>
   </div>
 
+  <h3>生成效果</h3>
+  <h4>水墨风 · 关键帧</h4>
+  <div class="gal">
+    <div class="it full"><img src="效果_墨图17.jpg" loading="lazy" alt="开场长图"><div class="cap">开场长图</div></div>
+    <div class="it"><img src="效果_墨图01.jpg" loading="lazy" alt="金兵南下 · 铁骑压境"><div class="cap">金兵南下 · 铁骑压境</div></div>
+    <div class="it"><img src="效果_墨图02.jpg" loading="lazy" alt="金兵南下 · 挥刀攻城"><div class="cap">金兵南下 · 挥刀攻城</div></div>
+    <div class="it"><img src="效果_墨图08.jpg" loading="lazy" alt="龙女眼睛特写"><div class="cap">龙女眼睛特写</div></div>
+    <div class="it"><img src="效果_墨图12.jpg" loading="lazy" alt="龙女吐息近景"><div class="cap">龙女吐息近景</div></div>
+  </div>
+  <h4>水墨风 · 视频</h4>
+  <div class="gal">
+    <div class="it"><video src="效果_墨视01.mp4" poster="效果_墨视01.jpg" controls loop muted playsinline preload="none"></video><div class="cap">金兵南下 · 铁骑压境</div></div>
+    <div class="it"><video src="效果_墨视02.mp4" poster="效果_墨视02.jpg" controls loop muted playsinline preload="none"></video><div class="cap">金兵南下 · 挥刀攻城</div></div>
+    <div class="it"><video src="效果_墨视08.mp4" poster="效果_墨视08.jpg" controls loop muted playsinline preload="none"></video><div class="cap">灾民挣扎到龙女眼睛特写</div></div>
+    <div class="it"><video src="效果_墨视12.mp4" poster="效果_墨视12.jpg" controls loop muted playsinline preload="none"></video><div class="cap">龙女吐息近景</div></div>
+  </div>
+  <h4>写实场景 · 关键帧与视频</h4>
+  <div class="gal">
+    <div class="it"><img src="效果_实图13.jpg" loading="lazy" alt="现代考场 · 关键帧"><div class="cap">现代考场 · 关键帧</div></div>
+    <div class="it"><video src="效果_实视12.mp4" poster="效果_实视12.jpg" controls loop muted playsinline preload="none"></video><div class="cap">现代考场 · 视频</div></div>
+    <div class="it"><img src="效果_实图25.jpg" loading="lazy" alt="能源基地 · 关键帧"><div class="cap">能源基地 · 关键帧</div></div>
+    <div class="it"><video src="效果_实视25.mp4" poster="效果_实视25.jpg" controls loop muted playsinline preload="none"></video><div class="cap">能源基地 · 视频（文字标注，Seedance 2.0 Fast）</div></div>
+  </div>
+
   <h3>使用的模型</h3>
   <div class="tbl">
     <table>
@@ -114,7 +145,7 @@ tr:last-child td{border-bottom:0}
       <tr><td>出图</td><td>Qwen-Image / Qwen-Image-Edit 2509</td><td>文生图、改图（前期）</td></tr>
       <tr><td>视频</td><td>MiniMax H3 + lightx2v 4 步加速</td><td>首帧 / 首尾帧图生视频，大部分镜头</td></tr>
       <tr><td>视频</td><td>可灵 Kling 4.0（LibTV）</td><td>多人、复杂动作镜头</td></tr>
-      <tr><td>视频</td><td>Seedance 2.5（LibTV）</td><td>五人环绕镜头最终版</td></tr>
+      <tr><td>视频</td><td>Seedance 2.5 / 2.0 Fast（LibTV）</td><td>五人环绕、能源基地文字标注等首尾帧镜头</td></tr>
     </table>
   </div>
 </div>
