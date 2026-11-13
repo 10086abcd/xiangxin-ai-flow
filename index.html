@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>《相信》AI 视频生成流程</title>
+<style>
+:root{
+  --bg:#f6f5f2; --card:#ffffff; --ink:#1f2328; --sub:#5b6270; --line:#d9d6cf;
+  --c1:#4b5563; --c2:#2f6fde; --c3:#1f8a5b; --c4:#b05a12; --c5:#8a3fb8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16181c; --card:#1f2228; --ink:#e8eaed; --sub:#a0a7b4; --line:#343944;
+    --c1:#b8c0cc; --c2:#7aa7ff; --c3:#5cc995; --c4:#f0a35e; --c5:#c79bf0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16181c; --card:#1f2228; --ink:#e8eaed; --sub:#a0a7b4; --line:#343944;
+  --c1:#b8c0cc; --c2:#7aa7ff; --c3:#5cc995; --c4:#f0a35e; --c5:#c79bf0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",system-ui,sans-serif;
+  line-height:1.6;font-size:16px}
+.wrap{max-width:880px;margin:0 auto;padding:36px 16px 60px}
+h1{font-size:28px;margin:0 0 6px;text-align:center}
+.lead{color:var(--sub);margin:0 0 32px;text-align:center}
+.step{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);
+  border-radius:10px;padding:16px 18px}
+.step h2{margin:0 0 8px;font-size:18px;color:var(--c);display:flex;align-items:center;gap:10px}
+.n{width:28px;height:28px;border-radius:50%;background:var(--c);color:var(--card);
+  display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
+.step p{margin:0;color:var(--sub)}
+.models{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.models span{font-size:13px;background:var(--c);color:var(--card);border-radius:999px;padding:2px 10px;font-weight:600}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+@media (max-width:700px){.three{grid-template-columns:1fr}}
+.sub{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.sub b{color:var(--c);display:block;margin-bottom:2px}
+.sub small{color:var(--sub);font-size:14px}
+.arrow{text-align:center;color:var(--sub);font-size:22px;margin:6px 0;line-height:1.2}
+.loop{margin-top:12px;padding:8px 12px;border:1.5px dashed var(--c);border-radius:8px;
+  font-size:14px;color:var(--c)}
+.s1{--c:var(--c1)} .s2{--c:var(--c2)} .s3{--c:var(--c3)} .s4{--c:var(--c4)} .s5{--c:var(--c5)}
+h3{font-size:18px;margin:40px 0 10px}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th,td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.tbl{overflow-x:auto}
+.shot{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.shot img{display:block;width:100%;height:auto}
+.shot .cap{padding:10px 14px;font-size:14px;color:var(--sub)}
+.shot .cap b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>《相信》AI 视频生成流程</h1>
+  <p class="lead">先出关键画面，再由图生成视频，逐条检查、审阅修改后剪进成片。</p>
+
+  <div class="step s1">
+    <h2><span class="n">1</span>分镜与风格设定</h2>
+    <p>按脚本拆出需要 AI 生成的镜头，定好每个镜头的画面、动作和时长。序幕做水墨风，其余镜头写实。</p>
+  </div>
+  <div class="arrow">↓</div>
+
+  <div class="step s2">
+    <h2><span class="n">2</span>关键帧出图</h2>
+    <p>为每个镜头生成首帧（需要时加尾帧），作为视频的起点和终点。人物需要像演员本人的镜头，参考演员照片做局部换脸修图。</p>
+    <div class="models"><span>GPT-Image-2</span><span>Qwen-Image</span><span>Qwen-Image-Edit 2509</span></div>
+  </div>
+  <div class="arrow">↓</div>
+
+  <div class="step s3">
+    <h2><span class="n">3</span>图生视频</h2>
+    <p>用关键帧生成视频，按镜头难度选模型：</p>
+    <div class="three">
+      <div class="sub"><b>MiniMax H3</b><small>大部分镜头。首帧或首尾帧生成，4 步加速，在远端显卡的 ComfyUI 上批量排队。</small></div>
+      <div class="sub"><b>可灵 Kling 4.0</b><small>多人、动作复杂的镜头。首尾帧和多图参考。</small></div>
+      <div class="sub"><b>Seedance 2.5</b><small>五人环绕镜头的最终版，首尾帧生成。</small></div>
+    </div>
+  </div>
+  <div class="arrow">↓</div>
+
+  <div class="step s4">
+    <h2><span class="n">4</span>逐条检查</h2>
+    <p>每条视频按秒抽帧拼图，检查动作是否连贯，有没有跳帧、闪烁、人物变脸。</p>
+    <div class="loop">↻ 不合格就调整提示词、关键帧或换模型，重新生成</div>
+  </div>
+  <div class="arrow">↓</div>
+
+  <div class="step s5">
+    <h2><span class="n">5</span>审阅与入片</h2>
+    <p>合格的镜头放进预览网页在线审阅，按意见修改；定稿后剪进成片，在剪辑里调整速度和画面大小。</p>
+  </div>
+
+  <h3>实际操作界面</h3>
+  <div class="shot">
+    <img src="界面_ComfyUI_H3工作流.jpg" alt="ComfyUI 中的 MiniMax H3 图生视频工作流">
+    <div class="cap"><b>ComfyUI · MiniMax H3 图生视频工作流</b>　左边载入首帧图，中间 “MiniMax H3 图像转视频” 节点写提示词、设分辨率和帧数，挂 4 步加速 LoRA，右边采样后输出视频。任务批量排进远端显卡的队列。</div>
+  </div>
+  <div class="shot">
+    <img src="界面_LibTV_首尾帧生视频.jpg" alt="LibTV 画布上用首尾帧生成视频">
+    <div class="cap"><b>LibTV 画布 · Seedance 2.5 首尾帧生视频</b>　左列是首帧、尾帧图片节点，连线到右列的视频节点；下方面板放首帧和尾帧、写提示词，选模型 2.5、首尾帧模式、720P、10 秒后生成。每个版本都留在画布上，方便对比。</div>
+  </div>
+
+  <h3>使用的模型</h3>
+  <div class="tbl">
+    <table>
+      <tr><th>环节</th><th>模型</th><th>用途</th></tr>
+      <tr><td>出图</td><td>GPT-Image-2（ChatGPT）</td><td>关键帧、首尾帧、水墨风画面（后期主力）</td></tr>
+      <tr><td>出图</td><td>Qwen-Image / Qwen-Image-Edit 2509</td><td>文生图、改图（前期）</td></tr>
+      <tr><td>视频</td><td>MiniMax H3 + lightx2v 4 步加速</td><td>首帧 / 首尾帧图生视频，大部分镜头</td></tr>
+      <tr><td>视频</td><td>可灵 Kling 4.0（LibTV）</td><td>多人、复杂动作镜头</td></tr>
+      <tr><td>视频</td><td>Seedance 2.5（LibTV）</td><td>五人环绕镜头最终版</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>
